@@ -1,0 +1,45 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-16.04"
+
+  config.vm.define "swarm-master" do |c1|
+  c1.vm.network  "private_network", ip: "10.8.0.15"
+  #c1.vm.provision "shell", inline: "hostnamectl set-hostname swarm-master"
+  c1.vm.provision "docker"
+  c1.vm.provision "shell", inline: "cd /vagrant && make install-master"
+  c1.vm.provision "shell", inline: "hostnamectl set-hostname swarm-master"
+  c1.vm.provider "virtualbox" do |vb|
+   vb.memory = 1024
+   vb.cpus = 1
+  end
+end
+
+  # Swarm managers
+  (1..2).each do |s|
+    config.vm.define "swarm-manager#{s}" do |node|
+      node.vm.network "private_network", ip: "10.8.0.2#{s}" # 10.7.0.21, 10.7.0.22, 10.7.0.23
+      node.vm.provision "shell", inline: "hostnamectl set-hostname swarm-manager#{s}"
+      node.vm.provision "docker" # Just install it
+      node.vm.provision "shell", inline: "cd /vagrant && make Join-master"
+      config.vm.provider "virtualbox" do |v|
+        v.memory = 1024
+        v.cpus = 1
+      end
+    end
+  end
+
+  # swarm workers
+  (1..2).each do |d|
+    config.vm.define "swarm-node#{d}" do |node|
+      node.vm.network "private_network", ip: "10.8.0.3#{d}" # 10.7.0.21, 10.7.0.22, 10.7.0.23
+      node.vm.provision "shell", inline: "hostnamectl set-hostname docker#{d}"
+      node.vm.provision "docker" # Just install it
+      node.vm.provision "shell", inline: "cd /vagrant && make install-node"
+      config.vm.provider "virtualbox" do |v|
+        v.memory = 1024
+        v.cpus = 1
+      end
+    end
+  end
+end

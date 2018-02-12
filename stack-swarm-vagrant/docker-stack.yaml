@@ -1,0 +1,37 @@
+version: "3"
+services:
+    python-app:
+        image: hhaddadian/hamedapp-redis
+        depends_on:
+          - redis
+        ports:
+          - "5000:5000"
+        networks:
+          - frontend
+        deploy:
+          replicas: 4
+          restart_policy:
+            condition: on-failure
+          placement:
+            constraints: [node.role ==worker]
+    redis:
+        image: redis
+        networks:
+          - frontend
+        deploy:
+          placement:
+            constraints: [node.role ==manager]
+    visualizer:
+        image: dockersamples/visualizer:stable
+        ports:
+          - "9000:8080"
+        networks:
+          - frontend
+        stop_grace_period: 1m30s
+        volumes:
+          - "/var/run/docker.sock:/var/run/docker.sock"
+        deploy:
+          placement:
+            constraints: [node.role ==manager]
+networks:
+  frontend:

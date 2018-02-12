@@ -1,0 +1,12 @@
+version: '2'
+services:
+    python-app:
+        build: .
+        links:
+            - "redis:redis"
+        depends_on:
+            - redis
+        ports:
+            - "5000:5000"
+    redis:
+        image: redis

@@ -1,0 +1,12 @@
+version: '2'
+services:
+    python-app:
+        image: hhaddadian/flaskredis:latest
+        ports:
+          - "5000:5000"
+        depends_on:
+            - redis
+        links:
+            - "redis:redis"
+    redis:
+        image: redis

@@ -1,0 +1,40 @@
+# The previous steps set limits for that particular deployment. You can also set limits on an entire namespace. We will create
+a new namespace and configure the hog deployment to run within. When set hog should not be able to use the previous
+amount of resources.
+
+# create a namespace
+```
+kubectl create namespace low-usage-limit
+```
+# list namespaces
+```
+kubectl get namespace
+NAME              STATUS    AGE
+default           Active    2d
+kube-public       Active    2d
+kube-system       Active    2d
+low-usage-limit   Active    7s
+```
+
+# limits cpu and memory usage
+```
+vim low-resource-range.yaml
+```
+
+# create LimitRange
+```
+kubectl create -f low-resource-range.yaml --namespace=low-usage-limit
+```
+
+# list limitrange
+```
+kubectl get LimitRange --all-namespaces
+NAMESPACE         NAME                 AGE
+default           limits               2d
+low-usage-limit   low-resource-range   39s
+```
+
+# note
+
+Per-deployment settings override the global namespace settings. You should see something
+like the following lines one from each node

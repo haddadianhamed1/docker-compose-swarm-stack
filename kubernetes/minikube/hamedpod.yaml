@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodehelloworld.example.com
+  labels:
+    app: helloworld
+spec:
+  containers:
+    - name: hamednodejs
+      image: hhaddadian/nodejs
+      ports:
+      - name: app
+        containerPort: 3000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-service
+spec:
+  ports:
+    - port: 3000
+      nodePort: 31222
+      targetPort: app
+  selector:
+    app: helloworld
+  type: NodePort

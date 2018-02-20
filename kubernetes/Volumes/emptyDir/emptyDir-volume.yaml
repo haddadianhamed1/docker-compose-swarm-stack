@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+  namespace: default
+spec:
+  containers:
+  - image: busybox
+    name: busy
+    command:
+      - sleep
+      - "3600"
+    volumeMounts:
+    - mountPath: /busy
+      name: scratch-volume
+  - image: busybox
+    name: box
+    command:
+      - sleep
+      - "3600"
+    volumeMounts:
+    - mountPath: /box
+      name: scratch-volume
+  volumes:
+  - name: scratch-volume
+    emptyDir: {}

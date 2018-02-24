@@ -1,6 +1,12 @@
 # This type of volume mounts a file or directory from the host node’s filesystem into your pod.
 ```
 IMPORTANT: hostPath is for single node testing
+hostPath Volume mountes a resource from the host node filesystem. The resource could be a directory, file socket, character, or block device. These resources must already exists.
+
+Two types: DirectoryOrCreate
+           FileOrCreate
+which create the resource on the host and use them if they dont already exists
+
 Kubernetes supports hostPath for development and testing on a single-node cluster. A hostPath PersistentVolume uses a file or directory on the Node to emulate network-attached storage.
 
 In a production cluster, you would not use hostPath. Instead a cluster administrator would provision a network resource like a Google Compute Engine persistent disk, an NFS share, or an Amazon Elastic Block Store volume. Cluster administrators can also use StorageClasses to set up dynamic provisioning.

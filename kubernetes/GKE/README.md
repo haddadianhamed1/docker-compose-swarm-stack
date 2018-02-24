@@ -75,6 +75,8 @@ sudo sed -i -e ’s/true/false/‘ /Users/hamedh/google-cloud-sdk/lib/googleclou
 # creaate cluster in google gcloud
 ```
 gcloud container clusters create helloworld
+or use ubuntu os default is chromeos
+gcloud container clusters create --image-type=UBUNTU hamed-ubuntu
 ```
 
 # list container cluster

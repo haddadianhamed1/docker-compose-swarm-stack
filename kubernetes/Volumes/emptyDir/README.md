@@ -1,5 +1,6 @@
 # emptyDir
 ```
+emptyDir works only for pods or cotainers inside the same pod
 emptyDir is an empty directory that gets erased when the Pod dies
 once the pod is destroyed the kubelet will delete the directory
 ```
@@ -26,5 +27,4 @@ kubectl exec -it busybox -c box -- touch /box/foobar
 kubectl exec -it busybox -c busy -- ls -l /busy
 total 0
 -rw-r--r--    1 root     root             0 Feb 20 03:29 foobar
-
 ```

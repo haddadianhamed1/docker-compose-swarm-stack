@@ -114,7 +114,14 @@ visit http://<IP_ADDRESS>/ to see the welcome page of the nginx Service, and vis
 ```
 
 # create Ingress for Hostname
+```
+foo.bar.com --|                 |-> foo.bar.com s1:80
+              | 178.91.123.132  |
+bar.foo.com --|                 |-> bar.foo.com s2:80
 
+kubectl create -f basic-ingress-hostname.yaml
+
+```
 
 # create TLS endpoints
 ```

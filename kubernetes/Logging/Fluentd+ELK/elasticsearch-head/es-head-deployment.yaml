@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+# Determines YAML versioned schema.
+kind: Deployment
+# Describes the resource defined in this file.
+metadata:
+  name: es-head
+  labels:
+    system: secondary
+# Existing namespace resource will be deployed into.
+spec:
+  replicas: 1
+# How many Pods of following containers to deploy
+  template:
+    metadata:
+      labels:
+        app: es-head
+# Some string meaningful to users, not cluster. Keys
+# must be unique for each object. Allows for mapping
+# to customer needs.
+    spec:
+      containers:
+# Array of objects describing containerized application with a Pod.
+# Referenced with shorthand spec.template.spec.containers
+      - image: mobz/elasticsearch-head:5
+# The Docker image to deploy
+        imagePullPolicy: Always
+        name: es-head
+# Unique name for each container, use local or Docker repo image
+        ports:
+        - containerPort: 9100
+          protocol: TCP
